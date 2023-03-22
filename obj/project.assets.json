@@ -102,19 +102,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Trenton Ringger\\.nuget\\packages\\": {}
+    "C:\\Users\\gamer\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Trenton's Programming Files\\MyGame\\MyGame.csproj",
+      "projectUniqueName": "D:\\MyGame\\MyGame.csproj",
       "projectName": "MyGame",
-      "projectPath": "C:\\Trenton's Programming Files\\MyGame\\MyGame.csproj",
-      "packagesPath": "C:\\Users\\Trenton Ringger\\.nuget\\packages\\",
-      "outputPath": "C:\\Trenton's Programming Files\\MyGame\\obj\\",
+      "projectPath": "D:\\MyGame\\MyGame.csproj",
+      "packagesPath": "C:\\Users\\gamer\\.nuget\\packages\\",
+      "outputPath": "D:\\MyGame\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Trenton Ringger\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\gamer\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"

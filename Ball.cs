@@ -47,7 +47,7 @@ public class Ball : GameObject
         batchSprite.End();
     }
 
-    public void Update(GameWindow window)
+    public void LeftClickSelect(GameWindow window)
     {
         var mouseState = Mouse.GetState();
         var mousePoint = new Point(mouseState.X, mouseState.Y);
@@ -60,31 +60,32 @@ public class Ball : GameObject
 
         if (rectangle.Contains(mousePoint))
         {
-            // On left click select 
-            {
-                selected = true;
-                // while (selected == true)
-                // {
-                    // On left click 
-                        // if (rectangle.Contains(mousePoint))
-                        // {
-
-                        // }
-                        // else
-                        // {
-                        //     selected = false;
-                        // }
-                    // On right click start moving towards mouse x, and y ballPosition.
-                        //update ballPosition
-                        ballPosition = UpdatePosition(ballPosition, ballSpeedX, ballSpeedY);
-                            //start moving
-                // }
-            }
+            selected = true;
         }
         else
         {
             selected = false;
         }
         System.Console.WriteLine(selected);
+    }
+
+    public void RightClickMove()
+    {
+            // while (selected == true)
+            // {
+            //     // On left click 
+            //         if (rectangle.Contains(mousePoint))
+            //         {
+
+            //         }
+            //         else
+            //         {
+            //             selected = false;
+            //         }
+            //     // On right click start moving towards mouse x, and y ballPosition.
+            //     //     update ballPosition
+            //     //     ballPosition = UpdatePosition(ballPosition, ballSpeedX, ballSpeedY);
+            //     //         start moving
+            // }
     }
 }

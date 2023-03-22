@@ -39,7 +39,8 @@ namespace MyGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            ball.Update(window);
+            // make a if mouse left button clicked activate ball.Update(window);
+            ball.LeftClickSelect(window);
 
             base.Update(gameTime);
         }
