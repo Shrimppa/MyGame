@@ -9,8 +9,6 @@ namespace MyGame
     {
         private GraphicsDeviceManager graphics;
 
-        Vector2 position;
-
         Ball ball;
 
         GameWindow window;
