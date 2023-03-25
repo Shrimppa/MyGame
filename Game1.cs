@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -16,31 +17,34 @@ namespace MyGame
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+
             Content.RootDirectory = "Content";
+
             IsMouseVisible = true;
         }
 
         protected override void Initialize()
         {
-            ball = new Ball(GraphicsDevice, graphics);
-            
+            ball = new Ball();
+
+            ball.Initialize(GraphicsDevice, graphics);
+
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            ball.LoadBall();
+            ball.Load();
 
             base.LoadContent();
         }
 
-        protected override void Update(GameTime gameTime)
-        {
+        protected override async void Update(GameTime gameTime)
+        {    
+            ball.Update(window);
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            // make a if mouse left button clicked activate ball.Update(window);
-            ball.LeftClickSelect(window);
 
             base.Update(gameTime);
         }
@@ -49,7 +53,7 @@ namespace MyGame
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            ball.DrawBall();
+            ball.Draw();
 
             base.Draw(gameTime);
         }
