@@ -1,0 +1,12 @@
+Program.cs = Starts the game
+
+Game1.cs = The main loop of the game 
+
+GameObject.cs = Controls everything that relates to a game object
+Ball.cs = A subclass that inherits from GameObject, and provides a texture for the specific object
+---.cs = Another undetermined subclass that inherits from GameObject - may be more
+
+CollisionSystem.cs = Checks a list of objects to see if a collision is happening
+CollisionOnBorder.cs = Is a subclass of CollisionSystem that checks for object collisions on the borders of the screen
+
+Might have more, but it's undetermined for now

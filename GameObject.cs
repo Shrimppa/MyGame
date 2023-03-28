@@ -28,13 +28,21 @@ public class GameObject
 
     protected Vector2 _position;
 
-    public virtual void Initialize(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphics) // The initialization of the object
+    protected Rectangle _objectRectangle;
+
+    protected bool _collisionHappened;
+
+    public virtual Rectangle GetRectangle()
+    {
+        return _objectRectangle;
+    }
+
+    public virtual void Initialize(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphics, Vector2 position) // The initialization of the object
     {
         _graphicsDevice = graphicsDevice;
         _graphics = graphics;
 
-        _position = new Vector2(_graphics.PreferredBackBufferWidth / 2,_graphics.PreferredBackBufferHeight / 2);
-
+        _position = position;
         _speedX = 1f;
         _speedY = 1f;
     }
@@ -52,6 +60,12 @@ public class GameObject
 
     public virtual void Draw() // The drawing of the object
     {
+        int px = (int)_position.X;
+        int py = (int)_position.Y;
+
+        var rectangle = new Rectangle(px, py, this._texture.Width, this._texture.Height);
+        _objectRectangle = rectangle;
+
         _batchSprite.Begin();
         _batchSprite.Draw(_texture, _position, null, Color.White);
         _batchSprite.End();
@@ -80,21 +94,25 @@ public class GameObject
     {
         
         // if (_collisionHappened == false)
-        if (_mousePosition != _position)
-        {
-            if (start_if_greater_than_0 > 0)
-            {
-                Vector2 movement = MovementDirection();
-
-                _position = UpdatePosition(_position, movement.X, movement.Y);
-            }
-        }
-        // // if (_collisionHappened == true)
-        // else if (start_if_greater_than_0 > 0)
         // {
-        //     Vector2 movement = MovementDirection(); // Use another class to get CollisionDirection - doesn't use mouse position, uses other object's position.
+            if (_mousePosition != _position)
+            {
+                if (start_if_greater_than_0 > 0)
+                {
+                    Vector2 movement = MovementDirection();
 
-        //     _position = UpdatePosition(_position, movement.X, movement.Y); // Input CollisionDirection into movement.x, and movement.y
+                    _position = UpdateObjectPosition(_position, movement.X, movement.Y);
+                }
+            }
+        // }
+        // else if (_collisionHappened == true)
+        // {
+        //     if (start_if_greater_than_0 > 0)
+        //     {
+        //         Vector2 movement = MovementDirection(); // Use another class to get CollisionDirection - doesn't use mouse position, uses other object's position.
+
+        //         _position = UpdateObjectPosition(_position, movement.X, movement.Y); // Input CollisionDirection into movement.x, and movement.y
+        //     }
         // }
     }
 
@@ -147,10 +165,22 @@ public class GameObject
         _mousePosition = mousePoint;
     }
 
-    public virtual Vector2 UpdatePosition(Vector2 Position, float _speedX, float _speedY) // Updates the position of the game object.
+    public virtual Vector2 UpdateObjectPosition(Vector2 Position, float _speedX, float _speedY) // Updates the position of the game object.
     {
         Position.X = Position.X + _speedX;
         Position.Y = Position.Y + _speedY;
         return Position;
+    }
+
+    public virtual void CollisionHappened()
+    {
+        _collisionHappened = true;
+        System.Console.WriteLine(_collisionHappened);
+    }
+
+    public virtual void CollisionDidntHappen()
+    {
+        _collisionHappened = false;
+        System.Console.WriteLine(_collisionHappened);
     }
 }
