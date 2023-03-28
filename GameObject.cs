@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,8 +8,7 @@ namespace MyGame;
 
 public class GameObject
 {
-
-    protected int x = 0;
+    Random rand;
 
     protected bool _selected;
 
@@ -31,10 +31,12 @@ public class GameObject
     protected Rectangle _objectRectangle;
 
     protected bool _collisionHappened;
-
-    public virtual Rectangle GetRectangle()
+    
+    public GameObject()
     {
-        return _objectRectangle;
+        _mousePosition.X = 800;
+
+        _mousePosition.Y = 500;
     }
 
     public virtual void Initialize(GraphicsDevice graphicsDevice, GraphicsDeviceManager graphics, Vector2 position) // The initialization of the object
@@ -43,10 +45,9 @@ public class GameObject
         _graphics = graphics;
 
         _position = position;
-        _speedX = 1f;
-        _speedY = 1f;
+        _speedX = 2;
+        _speedY = 2;
     }
-
 
     public virtual void Load() // The loading of the object 
     {
@@ -83,44 +84,40 @@ public class GameObject
                 if (_selected == true)
                 {
                     UpdateMousePosition();
-                    x = 1;
                 }
             }
 
-            StartMoving(x);
+            StartMoving();
     }
 
-    public void StartMoving(int start_if_greater_than_0) // The magic that starts to move the objects! :)
-    {
+    public void StartMoving() // The magic that starts to move the objects! :)
+    { 
+        if (_collisionHappened == true)
+        {
+            Vector2 movement = CollisionMovementDirection();
+
+            _position = UpdateObjectPosition(_position, movement.X, movement.Y); // Input CollisionDirection into movement.x, and movement.y
+        }
         
-        // if (_collisionHappened == false)
-        // {
+        if (_collisionHappened == false)
+        {
             if (_mousePosition != _position)
             {
-                if (start_if_greater_than_0 > 0)
-                {
-                    Vector2 movement = MovementDirection();
+                Vector2 movement = MovementDirection();
 
-                    _position = UpdateObjectPosition(_position, movement.X, movement.Y);
-                }
+                _position = UpdateObjectPosition(_position, movement.X, movement.Y);
             }
-        // }
-        // else if (_collisionHappened == true)
-        // {
-        //     if (start_if_greater_than_0 > 0)
-        //     {
-        //         Vector2 movement = MovementDirection(); // Use another class to get CollisionDirection - doesn't use mouse position, uses other object's position.
-
-        //         _position = UpdateObjectPosition(_position, movement.X, movement.Y); // Input CollisionDirection into movement.x, and movement.y
-        //     }
-        // }
+        }
     }
 
     public void SelectObject(GameWindow window) // Selects an object if the cursor is over it.
     {
         var mouseState = Mouse.GetState();
+        
         var mousePoint = new Point(mouseState.X, mouseState.Y);
+        
         int px = (int)_position.X;
+        
         int py = (int)_position.Y;
 
         var rectangle = new Rectangle(px, py, this._texture.Width, this._texture.Height);
@@ -129,6 +126,7 @@ public class GameObject
         {
             _selected = true;
         }
+        
         else
         {
             _selected = false;
@@ -138,9 +136,13 @@ public class GameObject
     public Vector2 MovementDirection() // Gives vector in the direction of last recorded mouse position.
     {
         Vector2 mousePos = _mousePosition;
+        
         Vector2 movementVector;
+        
         Vector2 Pos = _position;
+        
         float MovementX = _speedX;
+        
         float MovementY = _speedY;
         
         if (mousePos.X < Pos.X)
@@ -148,39 +150,96 @@ public class GameObject
             MovementX = MovementX * -1;
 
         }
+        
         if (mousePos.Y < Pos.Y)
         {
             MovementY = MovementY * -1;
         }
         
         movementVector.X = MovementX;
+        
         movementVector.Y = MovementY;
+        
+        return movementVector;
+    }
+
+    public Vector2 CollisionMovementDirection() // Gives a random vector.
+    {
+        rand = new Random();
+
+        Vector2 movementVector;
+        
+        float MovementX = _speedX;
+        
+        float MovementY = _speedY;
+
+        int randomNumber = rand.Next(1, 4);
+        
+        if (randomNumber == 1)
+        {
+            MovementX = MovementX * 25;
+
+            MovementY = MovementY * -25;
+        }
+
+        if (randomNumber == 2)
+        {
+            MovementX = MovementX * -25;
+
+            MovementY = MovementY * 25;
+        }
+
+        if (randomNumber == 3)
+        {
+            MovementX = MovementX * -25;
+
+            MovementY = MovementY * -25;
+        }
+
+        if (randomNumber == 4)
+        {
+            MovementX = MovementX * 25;
+
+            MovementY = MovementY * 25;
+        }
+        
+        movementVector.X = MovementX;
+
+        movementVector.Y = MovementY;
+        
         return movementVector;
     }
 
     public void UpdateMousePosition() // Updates the mouse's position in a vector form.
     {
         var mouseState = Mouse.GetState();
+        
         var mousePoint = new Vector2(mouseState.X, mouseState.Y);
+        
         _mousePosition = mousePoint;
     }
 
     public virtual Vector2 UpdateObjectPosition(Vector2 Position, float _speedX, float _speedY) // Updates the position of the game object.
     {
         Position.X = Position.X + _speedX;
+        
         Position.Y = Position.Y + _speedY;
+        
         return Position;
     }
 
     public virtual void CollisionHappened()
     {
         _collisionHappened = true;
-        System.Console.WriteLine(_collisionHappened);
     }
 
     public virtual void CollisionDidntHappen()
     {
         _collisionHappened = false;
-        System.Console.WriteLine(_collisionHappened);
+    }
+
+    public virtual Rectangle GetRectangle()
+    {
+        return _objectRectangle;
     }
 }

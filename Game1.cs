@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
@@ -14,10 +15,9 @@ namespace MyGame
 
         private List<GameObject> _gameObjects = new List<GameObject>();
 
-        Ball ball;
-        Ball ball2;
-
         GameWindow window;
+
+        ObjectListCreator creator;
 
         CollisionSystem collision;
 
@@ -32,27 +32,19 @@ namespace MyGame
 
         protected override void Initialize()
         {
-            ball = new Ball();
-            _gameObjects.Add(ball);
-            ball2 = new Ball();
-            _gameObjects.Add(ball2);
+            graphics.IsFullScreen = false;
+            graphics.PreferredBackBufferWidth = 1820;
+            graphics.PreferredBackBufferHeight = 980;
+            graphics.ApplyChanges();
 
-            Vector2 a1;
-            a1.X = 300;
-            a1.Y = 300;
+            creator = new ObjectListCreator();
 
-            Vector2 b1;
-            b1.X = 100;
-            b1.Y = 100;
+            _gameObjects = creator.GetListOfGameObjects();
 
-            ball.Initialize(GraphicsDevice, graphics, a1);
-
-            ball2.Initialize(GraphicsDevice, graphics, b1);
-
-            // foreach (GameObject _object in _gameObjects)
-            // {
-            //     _object.Initialize(GraphicsDevice, graphics);  
-            // }
+            foreach (GameObject _object in _gameObjects)
+            {
+                _object.Initialize(GraphicsDevice, graphics, creator.GetRandomPosition(window));  
+            }
 
             collision = new CollisionSystem(_gameObjects);
 
@@ -77,8 +69,8 @@ namespace MyGame
             }
             
             collision.SetObjectAreas();
-            
-            collision.CheckForCollision(window);
+
+            collision.CheckForCollision(Window);
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
