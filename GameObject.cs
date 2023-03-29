@@ -45,8 +45,8 @@ public class GameObject
         _graphics = graphics;
 
         _position = position;
-        _speedX = 2;
-        _speedY = 2;
+        _speedX = 1;
+        _speedY = 1;
     }
 
     public virtual void Load() // The loading of the object 
@@ -177,14 +177,14 @@ public class GameObject
         
         if (randomNumber == 1)
         {
-            MovementX = MovementX * 25;
+            MovementX = MovementX * 75;
 
             MovementY = MovementY * -25;
         }
 
         if (randomNumber == 2)
         {
-            MovementX = MovementX * -25;
+            MovementX = MovementX * -75;
 
             MovementY = MovementY * 25;
         }
@@ -193,14 +193,14 @@ public class GameObject
         {
             MovementX = MovementX * -25;
 
-            MovementY = MovementY * -25;
+            MovementY = MovementY * -75;
         }
 
         if (randomNumber == 4)
         {
             MovementX = MovementX * 25;
 
-            MovementY = MovementY * 25;
+            MovementY = MovementY * 75;
         }
         
         movementVector.X = MovementX;
