@@ -13,7 +13,7 @@ public class ObjectListCreator : ObjectCreator
 
     public ObjectListCreator()
     {
-        ObjectListUseful(100);
+        ObjectListUseful(75);
     }
 
     private void ObjectListUseful(int NumberOfObjectsToCreate)

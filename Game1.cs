@@ -80,7 +80,7 @@ namespace MyGame
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             foreach (GameObject _object in _gameObjects)
             {
